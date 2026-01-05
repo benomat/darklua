@@ -333,8 +333,6 @@ impl CollectGlobalReferences {
     }
 
     fn visit_block_ref(&mut self, block: &Block) {
-        eprintln!("DEBUG: Visiting block, current scope depth: {}", self.local_scopes.len());
-        
         // First pass: collect all local declarations in this block
         let mut locals = Vec::new();
         for statement in block.iter_statements() {
@@ -350,8 +348,6 @@ impl CollectGlobalReferences {
                 _ => {}
             }
         }
-
-        eprintln!("DEBUG: Found local declarations in block: {:?}", locals);
 
         // Add locals to current scope
         for local in locals {
