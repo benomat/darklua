@@ -147,10 +147,7 @@ impl RuleConfiguration for RenameVariables {
 
         let globals = self.normalize_additional_globals();
         if !globals.is_empty() {
-            properties.insert(
-                "globals".to_owned(),
-                RulePropertyValue::StringList(globals),
-            );
+            properties.insert("globals".to_owned(), RulePropertyValue::StringList(globals));
         }
 
         if self.include_functions {
@@ -179,9 +176,7 @@ impl CollectGlobalReferences {
     }
 
     fn is_local(&self, name: &str) -> bool {
-        self.local_scopes
-            .iter()
-            .any(|scope| scope.contains(name))
+        self.local_scopes.iter().any(|scope| scope.contains(name))
     }
 
     fn add_local(&mut self, name: String) {
@@ -400,7 +395,7 @@ impl CollectGlobalReferences {
                 for expr in generic_for.iter_expressions() {
                     self.visit_expression_ref(expr);
                 }
-                
+
                 // Loop variables are local to the loop
                 self.enter_scope();
                 for id in generic_for.iter_identifiers() {
@@ -416,7 +411,7 @@ impl CollectGlobalReferences {
                     self.visit_block_ref(branch.get_block());
                     self.exit_scope();
                 }
-                
+
                 if let Some(else_block) = if_stmt.get_else_block() {
                     self.enter_scope();
                     self.visit_block_ref(else_block);
@@ -445,7 +440,7 @@ impl CollectGlobalReferences {
                 if let Some(step) = numeric_for.get_step() {
                     self.visit_expression_ref(step);
                 }
-                
+
                 self.enter_scope();
                 self.add_local(numeric_for.get_identifier().get_name().to_string());
                 self.visit_block_ref(numeric_for.get_block());

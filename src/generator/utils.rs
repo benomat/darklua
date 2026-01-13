@@ -10,8 +10,8 @@ use crate::nodes::{
     Statement, StringSegment, TableExpression, Variable,
 };
 
-const QUOTED_STRING_MAX_LENGTH: usize = 60;
-const LONG_STRING_MIN_LENGTH: usize = 20;
+const QUOTED_STRING_MAX_LENGTH: usize = 500;
+// const LONG_STRING_MIN_LENGTH: usize = 20;
 const FORCE_LONG_STRING_NEW_LINE_THRESHOLD: usize = 6;
 
 #[inline]
@@ -324,9 +324,9 @@ pub fn write_string(value: &[u8]) -> String {
     }
 
     if !value.iter().any(needs_quoted_string)
-        && value.len() >= LONG_STRING_MIN_LENGTH
+        // && value.len() >= LONG_STRING_MIN_LENGTH
         && (value.len() >= QUOTED_STRING_MAX_LENGTH
-            || count_new_lines(value) >= FORCE_LONG_STRING_NEW_LINE_THRESHOLD)
+        || count_new_lines(value) >= FORCE_LONG_STRING_NEW_LINE_THRESHOLD)
     {
         write_long_bracket(value).unwrap_or_else(|| write_quoted(value))
     } else {
